@@ -203,4 +203,81 @@ public class Enfrentamiento {
 
 	}
 
+//METODOS PARA TABLA
+	public int DarGolesFavorables(String nombreEquipo) {
+		int golesFavorablesTabla = 0;
+		try {
+
+			if (nombreEquipo.equals(equipo1.get_nombreEquipo())) {
+				golesFavorablesTabla = golesEquipo1;
+			} else {
+				golesFavorablesTabla = golesEquipo2;
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error al recoger goles favorables");
+		}
+		return golesFavorablesTabla;
+	}
+
+	public int darGolesContra(String nombreEquipo) {
+		int golesContra = 0;
+		try {
+			if (nombreEquipo.equals(equipo1.get_nombreEquipo())) {
+				golesContra = golesEquipo2;
+			} else {
+				golesContra = golesEquipo1;
+			}
+		} catch (Exception e) {
+			System.out.println("Error al recoger goles en contra");
+		}
+
+		return golesContra;
+	}
+
+	public int darPuntos(String nombreEquipo) {
+		int puntos = 0;
+		try {
+			if (nombreEquipo.equals(equipo1.get_nombreEquipo())) {
+				if (equipo1 == ganador) {
+					puntos = puntos + 2;
+				}
+				if (equipo1 == perdedor) {
+					puntos = puntos + 0;
+				} else {
+					puntos++;
+				}
+			} else {
+				if (equipo2 == ganador) {
+					puntos = puntos + 2;
+				}
+				if (equipo2 == perdedor) {
+					puntos = puntos + 0;
+				} else {
+					puntos++;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Error al recoger puntos");
+		}
+
+		return puntos;
+
+	}
+
+	public int darDiferencia(String nombreEquipo) {
+		int diferencia = 0;
+		try {
+			if (nombreEquipo.equals(equipo1.get_nombreEquipo())) {
+				diferencia = golesEquipo1 - golesEquipo2;
+			} else {
+				diferencia = golesEquipo2 - golesEquipo1;
+			}
+		} catch (Exception e) {
+			System.out.println("Error al calcular diferencia de goles");
+		}
+		return diferencia;
+
+	}
+
 }

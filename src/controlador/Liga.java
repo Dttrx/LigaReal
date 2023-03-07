@@ -44,8 +44,8 @@ public class Liga {
 
 		añadirEquiposAleatorio(cantidadEquipos - equipos.size());
 
-		tabla = new Tabla(cantidadEquipos);
-
+		tabla = new Tabla(equipos, cantidadEquipos);
+		
 		menuPrincipal();
 
 	}
@@ -111,7 +111,7 @@ public class Liga {
 
 			case 3:
 
-				tabla.mostrarEstadisticas();
+				
 
 				break;
 

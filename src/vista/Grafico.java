@@ -7,6 +7,7 @@ import java.util.Scanner;
 import modelo.Enfrentamiento;
 import modelo.Equipo;
 import modelo.Jornada;
+import modelo.Tabla;
 
 public class Grafico {
 
@@ -183,6 +184,12 @@ public class Grafico {
 
 	}
 
+	public static void imprimeTabla(Tabla tabla) {
+		
+		
+		
+	}
+	
 	private static void imprimeMenu(String[] opciones) {
 
 		for (String opcion : opciones) {

@@ -1,17 +1,32 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Tabla {
 
-	// AÑADIR EL NUMERO DE EQUIPOS A LA INICIALIZACION DE ARRAYS
-	private String[] equipo;
-	private int[][] estadisticas;
+	String[] nombresEquipos;
+	int[][] estadisticas;
 
-	public Tabla(int numeroEquipos) {
+	public Tabla(ArrayList<Equipo> equipos, int cantidadEquipos) {
 		super();
-		this.equipo = new String[numeroEquipos];
-		this.estadisticas = new int[numeroEquipos][5];
+		this.nombresEquipos = new String[equipos.size()];
+		this.estadisticas = new int[equipos.size()][4];
+
+		for (int i = 0; i < cantidadEquipos; i++) {
+
+			this.nombresEquipos[i] = equipos.get(i).get_nombreEquipo();
+
+		}
+
+	}
+
+	public String[] getEquipos() {
+		return nombresEquipos;
+	}
+
+	public void setEquipos(String[] equipos) {
+		this.nombresEquipos = equipos;
 	}
 
 	public int[][] getEstadisticas() {
@@ -22,94 +37,101 @@ public class Tabla {
 		this.estadisticas = estadisticas;
 	}
 
-	public String[] getEquipo() {
-		return equipo;
-	}
-
-	public void setEquipo(String[] equipo) {
-		this.equipo = equipo;
-	}
-
-	public void mostrarEstadisticas() {
-		System.out.println(Arrays.toString(equipo) + Arrays.deepToString(estadisticas));
-		/*
-		 * Arrays.deepToString sacado de:
-		 * https://docs.oracle.com/javase/7/docs/api/java/util/
-		 * Arrays.html#deepToString(java.lang.Object[])
-		 */
-	}
-
-	public void insertarEquipoEnTabla(String nombreEquipo) {// a partir de aquí metodos individuales llamados en
-		for (int i = 0; i < equipo.length; i++) {// cambiar el numero 3 por el numero de equipos
-
-			equipo[i] = nombreEquipo;
-
-		}
-
-	}
-
-	public void insertarPartidosJugadosEnTabla(int partidosJugados) {
-		int columna = 0;
-		for (int i = 0; i < equipo.length; i++) {
-
-			estadisticas[i][columna] = partidosJugados;
-
-		}
-	}
-
-	public void insertarGolesFavorablesEnTabla(int golesFavorables) {
-		int columna = 1;
-		for (int i = 0; i < equipo.length; i++) {
-
-			estadisticas[i][columna] = golesFavorables;
-
-		}
-	}
-
-	public void insertarGolesContraEnTabla(int golesContrarios) {
-		int columna = 2;
-		for (int i = 0; i < equipo.length; i++) {
-
-			estadisticas[i][columna] = golesContrarios;
-
-		}
-	}
-
-	public void insertarDiferenciaGolesEnTabla(int diferencia) {
-		int columna = 3;
-		for (int i = 0; i < equipo.length; i++) {
-
-			estadisticas[i][columna] = diferencia;
-
-		}
-	}
-
-	public void insertarPuntosEnTabla(int puntos) {
-		int columna = 4;
-		for (int i = 0; i < equipo.length; i++) {
-
-			estadisticas[i][columna] = puntos;
-
-		}
-	}
-
-	public void insertarDatosEnTabla(String nombreEquipo, int partidosJugados, int golesFavorables, int golesContrarios,
-			int diferencia, int puntos) {// metodo con llamadas a metodos para insetar todos los datos dentro de tabla
-		for (int i = 0; i < equipo.length; i++) {
-			insertarEquipoEnTabla(nombreEquipo);
-			insertarPartidosJugadosEnTabla(partidosJugados);
-			insertarGolesFavorablesEnTabla(golesFavorables);
-			insertarGolesContraEnTabla(golesContrarios);
-			insertarDiferenciaGolesEnTabla(diferencia);
-			insertarPuntosEnTabla(puntos);
-		}
-
-	}
-
 	@Override
 	public String toString() {
-		return "Tabla [equipo=" + Arrays.toString(getEquipo()) + ", estadisticas=" + Arrays.toString(getEstadisticas())
-				+ "]";
+		return "TablaRepuesto [equipos=" + Arrays.toString(nombresEquipos) + ", estadisticas="
+				+ Arrays.deepToString(estadisticas) + "]";
+	}
+
+	public void insertarEstadistica(String equipo, int golesFavor, int golesContra, int puntos) {
+
+		boolean encontrado = false;
+		int posicion = 0;
+
+		// try catch que exige Carlos
+		try {
+
+			// bucle que busca al equipo, sale si lo encuentra
+			do {
+
+				/**
+				 * por cada posicion del array de nombres comparo con el nombre dado.
+				 * 
+				 * equalsIgnoreCase compara 2 strings sin tomar en cuenta mayúsculas
+				 * 
+				 * "hola".equalsIgnoreCase("HOLA");// retorna true
+				 * 
+				 */
+				if (nombresEquipos[posicion].equalsIgnoreCase(equipo)) {
+
+					encontrado = true;
+
+					// como quiero preservar la posicion, esta solo aumenta si no
+					// se ha encontrado el equipo
+				} else {
+
+					posicion++;
+
+				}
+
+			} while (!encontrado);
+
+			// una vez encontrado el equipo, le sumo las estadisticas
+			estadisticas[posicion][0] += golesFavor;
+			estadisticas[posicion][1] += golesContra;
+			estadisticas[posicion][2] += Math.abs(golesFavor - golesContra);// no sé si así se calcula la diferencia de
+																			// goles lol
+			estadisticas[posicion][3] += puntos;
+
+			// si no encuentra al equipo, bota esta excepcion
+		} catch (IndexOutOfBoundsException e) {
+
+			System.out.println("Error al insertar estadísticas");
+			System.out.println("Equipo no encontrado");
+
+		} catch (Exception e) {
+
+			System.out.println("Error to raro 0.o");
+
+		}
+		
+		ordenarTabla();
+
+	}
+
+	// lo mismo pero con 2 equipos y sus estadisticas
+	public void insertarEnfrentamiento(String[] equipos, int[] golesFavor, int[] golesContra, int[] puntos) {
+
+		insertarEstadistica(equipos[0], golesFavor[0], golesContra[0], puntos[0]);
+		insertarEstadistica(equipos[1], golesFavor[1], golesContra[1], puntos[1]);
+
+	}
+
+	private void ordenarTabla() {
+
+		int auxNum;
+		String auxStr;
+
+		for (int i = 0; i < nombresEquipos.length - 1; i++) {
+
+			for (int j = i + 1; j < nombresEquipos.length - i; j++) {
+
+				if (estadisticas[j][3] > estadisticas[j - 1][3]) {
+
+					auxNum = estadisticas[j][3];
+					estadisticas[j][3] = estadisticas[j - 1][3];
+					estadisticas[j - 1][3] = auxNum;
+
+					auxStr = nombresEquipos[j];
+					nombresEquipos[j] = nombresEquipos[j - 1];
+					nombresEquipos[j - 1] = auxStr;
+
+				}
+
+			}
+
+		}
+
 	}
 
 }
