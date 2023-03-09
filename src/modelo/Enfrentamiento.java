@@ -2,6 +2,9 @@ package modelo;
 
 import vista.Grafico;
 
+/**
+ * @author Miguel
+ */
 public class Enfrentamiento {
 
 	private Equipo equipo1;

@@ -9,6 +9,9 @@ import modelo.Equipo;
 import modelo.Jornada;
 import modelo.Tabla;
 
+/**
+ * @author Joaquin
+ */
 public class Grafico {
 
 	private static Scanner sc = new Scanner(System.in);

@@ -11,8 +11,16 @@ import modelo.Jugador;
 import modelo.Tabla;
 import vista.Grafico;
 
+/**
+ * @authors Joaquin y Javi
+ */
 public class Liga {
 
+	/**
+	 * Ya que las cantidades de cada lista se usan repetidamente las tenemos en sus
+	 * propias variables para no llamar al método {@code ArrayList.size()} repetidas
+	 * veces
+	 */
 	static int cantidadJugadores = 0;
 	static int cantidadEquipos = 0;
 	static int cantidadJornadas = 0;
@@ -20,6 +28,8 @@ public class Liga {
 	static ArrayList<Jugador> jugadores = new ArrayList<>();
 	static ArrayList<Equipo> equipos = new ArrayList<>();
 	static ArrayList<Jornada> jornadas = new ArrayList<>();
+
+	// Un array de 80 nombres de equipos predeterminados
 	static String[] listaEquipos = { "Real Madrid", "Barcelona", "Bayern Munich", "Paris Saint-Germain", "Juventus",
 			"Manchester United", "Manchester City", "Liverpool", "Chelsea", "Arsenal", "Atletico Madrid",
 			"Borussia Dortmund", "AC Milan", "Inter Milan", "Roma", "Napoli", "Valencia", "Tottenham", "Ajax",
@@ -33,9 +43,10 @@ public class Liga {
 			"Club Deportivo Guadalajara", "Club Atlas", "Club Toluca", "Club Pachuca", "Club America de Cali",
 			"Club Junior", "Club Atletico Nacional", "Club Millonarios", "Club Deportivo Cali", "Club Colo Colo",
 			"Club Universidad de Chile", "Club Universidad Catolica", "Club Universidad de Concepcion",
-			"Club Universidad Nacional", "Club Santos Laguna" };
+			"Club Universidad Nacional", "Club Santos Laguna", "Sudán del Sur" };
 	static Tabla tabla;
 
+	// Joaquin
 	public static void main(String[] args) {
 
 		cantidadEquipos = Grafico.bienvenida();
@@ -48,6 +59,7 @@ public class Liga {
 
 	}
 
+	// Javi
 	public static void añadirEquiposAleatorio(int n_equipos) {
 
 		Collections.shuffle(Arrays.asList(listaEquipos));
@@ -60,6 +72,7 @@ public class Liga {
 
 	}
 
+	// Javi
 	public static void añadirEquiposManual(int n_equipos) {
 
 		int contador = 0;
@@ -81,6 +94,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void menuPrincipal() {
 
 		int opcion;
@@ -115,6 +129,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void menuEquiposJugadores() {
 
 		int opcion;
@@ -151,6 +166,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void menuEquipos() {
 
 		int opcion;
@@ -198,6 +214,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void menuJugador() {
 
 		int opcion;
@@ -233,6 +250,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void menuJornadas() {
 
 		int jornadaActual = 0;
@@ -341,6 +359,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static int menuEnfrentamientos(Jornada jornada, int enfrentamientoActual) {
 
 		int opcion;
@@ -387,6 +406,7 @@ public class Liga {
 
 	}
 
+	// 80% Javi 20% Joaquin
 	public static void ficharJugador() {
 
 		int indice = buscarEquipo(Grafico.pideString("Introduce el nombre del equipo", "Equipo: "));
@@ -424,6 +444,7 @@ public class Liga {
 
 	}
 
+	// 80% Javi 20% Joaquin
 	public static void modificarJugador() {
 
 		boolean esNombre = Grafico.nombreODorsal("Modificar");
@@ -482,6 +503,7 @@ public class Liga {
 
 	}
 
+	// 80% Javi 20% Joaquin
 	public static void despedirJugador() {
 
 		boolean esNombre = Grafico.nombreODorsal("Despedir");
@@ -499,6 +521,7 @@ public class Liga {
 
 	}
 
+	// 80% Javi 20% Joaquin
 	public static void modificarNombreEquipo() {
 
 		int indice = buscarEquipo(Grafico.pideString("Introduce el nombre del equipo", "Equipo: "));
@@ -527,6 +550,7 @@ public class Liga {
 
 	}
 
+	// 80% Javi 20% Joaquin
 	public static void eliminarEquipo() {
 
 		int posicion = buscarEquipo(Grafico.pideString("Introduce el nombre del equipo", "Equipo: "));
@@ -550,6 +574,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void mostrarPlantilla() {
 
 		int posicion = buscarEquipo(Grafico.pideString("Introduce el nombre del equipo", "Equipo: "));
@@ -574,6 +599,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static int buscarEquipo(String nombre) {
 
 		boolean encontrado = false;
@@ -598,6 +624,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static int buscarJugador(String nombre) {
 
 		boolean encontrado = false;
@@ -622,6 +649,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static int buscarJugador(int dorsal) {
 
 		boolean encontrado = false;
@@ -645,6 +673,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void despedirSiExisteEnEquipo(String nombre) {
 
 		boolean encontrado = false;
@@ -691,6 +720,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void despedirSiExisteEnEquipo(int dorsal) {
 
 		boolean encontrado = false;
@@ -737,6 +767,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void mostrarJugador() {
 
 		int posicion = buscarJugador(Grafico.pideString("Ingresa el nombre del jugador", "Jugador: "));
@@ -761,6 +792,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	public static void reiniciarPuntos() {
 
 		for (int i = 0; i < cantidadEquipos; i++) {
@@ -771,7 +803,7 @@ public class Liga {
 
 	}
 
-	// hace las jornadas con los equipos formados
+	// Joaquin
 	public static void hacerJornadas() {
 
 		// esta jornada se usa como base para formar las demas
@@ -789,6 +821,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	private static void inicializarJornadas() {
 
 		// elimina jornadas anteriormente hechas
@@ -802,7 +835,7 @@ public class Liga {
 
 	}
 
-	// genera la jornada base
+	// Joaquin
 	private static Enfrentamiento[] jornadaBase() {
 
 		/*
@@ -847,6 +880,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	private static void ciclarEnfrentamientos(Enfrentamiento[] jornadaBase) {
 
 		int contador;
@@ -909,6 +943,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	private static void añadirJornada(Enfrentamiento[] jornada, int indice) {
 
 		for (int i = 0; i < jornada.length; i++) {
@@ -919,6 +954,7 @@ public class Liga {
 
 	}
 
+	// Joaquin
 	private static void añadirJornada(Equipo[][] jornada, int indice) {
 
 		for (int i = 0; i < jornada.length; i++) {

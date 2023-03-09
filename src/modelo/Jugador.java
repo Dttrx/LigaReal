@@ -1,5 +1,8 @@
 package modelo;
 
+/**
+ * @author Javi
+ */
 public class Jugador {
 
 	private String _nombre;

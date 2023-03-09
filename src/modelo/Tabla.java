@@ -3,6 +3,9 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * @authors Jorge y Joaquin
+ */
 public class Tabla {
 
 	int[][] estadisticas;
@@ -48,26 +51,14 @@ public class Tabla {
 		boolean encontrado = false;
 		int posicion = 0;
 
-		// try catch que exige Carlos
 		try {
 
-			// bucle que busca al equipo, sale si lo encuentra
 			do {
 
-				/**
-				 * por cada posicion del array de nombres comparo con el nombre dado.
-				 * 
-				 * equalsIgnoreCase compara 2 strings sin tomar en cuenta mayúsculas
-				 * 
-				 * "hola".equalsIgnoreCase("HOLA");// retorna true
-				 * 
-				 */
 				if (nombresEquipos[posicion].equalsIgnoreCase(equipo)) {
 
 					encontrado = true;
 
-					// como quiero preservar la posicion, esta solo aumenta si no
-					// se ha encontrado el equipo
 				} else {
 
 					posicion++;
@@ -79,13 +70,9 @@ public class Tabla {
 			// una vez encontrado el equipo, le sumo las estadisticas
 			estadisticas[posicion][0] += golesFavor;
 			estadisticas[posicion][1] += golesContra;
-			estadisticas[posicion][2] = Math.abs(estadisticas[posicion][0] - estadisticas[posicion][1]);// no sé si así
-																										// se calcula la
-																										// diferencia de
-			// goles lol
+			estadisticas[posicion][2] = Math.abs(estadisticas[posicion][0] - estadisticas[posicion][1]);
 			estadisticas[posicion][3] = puntos;
 
-			// si no encuentra al equipo, bota esta excepcion
 		} catch (IndexOutOfBoundsException e) {
 
 			System.out.println("Error al insertar estadísticas");
@@ -101,7 +88,6 @@ public class Tabla {
 
 	}
 
-	// lo mismo pero con 2 equipos y sus estadisticas
 	public void insertarEnfrentamiento(String[] equipos, int[] golesFavor, int[] golesContra, int[] puntos) {
 
 		insertarEstadistica(equipos[0], golesFavor[0], golesContra[0], puntos[0]);
@@ -109,6 +95,7 @@ public class Tabla {
 
 	}
 
+	// Joaquin
 	private void ordenarTabla() {
 
 		int[] auxNum;

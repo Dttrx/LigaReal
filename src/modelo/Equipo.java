@@ -2,6 +2,10 @@ package modelo;
 
 import java.util.ArrayList;
 
+/**
+ * @author Javi
+ */
+
 public class Equipo {
 
 	private int partidosJugados = 0;
