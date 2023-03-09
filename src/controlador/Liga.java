@@ -44,8 +44,6 @@ public class Liga {
 
 		añadirEquiposAleatorio(cantidadEquipos - equipos.size());
 
-		tabla = new Tabla(equipos, cantidadEquipos);
-		
 		menuPrincipal();
 
 	}
@@ -86,7 +84,7 @@ public class Liga {
 	public static void menuPrincipal() {
 
 		int opcion;
-		String[] opciones = { "1. Equipos/Jugadores", "2. Iniciar Liga", "3. Ver tabla", "4. Salir del programa" };
+		String[] opciones = { "1. Equipos/Jugadores", "2. Iniciar Liga", "3. Salir del programa" };
 
 		do {
 
@@ -104,20 +102,16 @@ public class Liga {
 
 			case 2:
 
+				reiniciarPuntos();
+				tabla = new Tabla(equipos);
 				hacerJornadas();
 				menuJornadas();
 
 				break;
 
-			case 3:
-
-				
-
-				break;
-
 			}
 
-		} while (opcion != 4);
+		} while (opcion != 3);
 
 	}
 
@@ -244,12 +238,31 @@ public class Liga {
 		int jornadaActual = 0;
 		int enfrentamientoActual = cantidadEquipos % 2 == 0 ? 0 : 1;
 		int opcion;
-		String[] opciones = { "1. Mostrar enfrentamiento", "2. Simular jornada", "3. Simular resto de liga" };
+		int[] goles;
+		int[] puntos;
+		String[] nombres;
+		String[] opciones = { "1. Mostrar enfrentamiento", "2. Simular jornada", "3. Simular resto de liga",
+				"4. Mostrar tabla" };
 		Jornada jornada;
+		Enfrentamiento enfrentamiento;
 
 		do {
 
 			jornada = jornadas.get(jornadaActual);
+			System.out.println("Jornada " + (jornadaActual + 1) + ":");
+			System.out.println();
+
+			for (int i = 0; i < enfrentamientosPorJornada; i++) {
+
+				System.out.println(jornada.getEnfrentamientos().get(i).getEquipo1().get_nombreEquipo()
+						+ (jornada.getEnfrentamientos().get(i).getEquipo1().get_nombreEquipo()
+								.equalsIgnoreCase("descansa") ? "" : " vs ")
+						+ jornada.getEnfrentamientos().get(i).getEquipo2().get_nombreEquipo());
+
+			}
+
+			System.out.println();
+
 			opcion = Grafico.menu(opciones, "Opcion: ");
 
 			switch (opcion) {
@@ -263,7 +276,16 @@ public class Liga {
 
 				for (int i = enfrentamientoActual; i < enfrentamientosPorJornada; i++) {
 
-					jornada.getEnfrentamientos().get(i).simularEnfrentamiento();
+					enfrentamiento = jornada.getEnfrentamientos().get(i);
+
+					enfrentamiento.simularEnfrentamiento();
+
+					nombres = new String[] { enfrentamiento.getEquipo1().get_nombreEquipo(),
+							enfrentamiento.getEquipo2().get_nombreEquipo() };
+					goles = new int[] { enfrentamiento.getGolesEquipo1(), enfrentamiento.getGolesEquipo2() };
+					puntos = new int[] { enfrentamiento.getEquipo1().getPuntos(),
+							enfrentamiento.getEquipo2().getPuntos() };
+					tabla.insertarEnfrentamiento(nombres, goles, new int[] { goles[1], goles[0] }, puntos);
 
 				}
 
@@ -280,13 +302,30 @@ public class Liga {
 
 					for (int j = enfrentamientoActual; j < enfrentamientosPorJornada; j++) {
 
-						jornada.getEnfrentamientos().get(j).simularEnfrentamiento();
+						enfrentamiento = jornada.getEnfrentamientos().get(j);
+
+						enfrentamiento.simularEnfrentamiento();
+
+						nombres = new String[] { enfrentamiento.getEquipo1().get_nombreEquipo(),
+								enfrentamiento.getEquipo2().get_nombreEquipo() };
+						goles = new int[] { enfrentamiento.getGolesEquipo1(), enfrentamiento.getGolesEquipo2() };
+						puntos = new int[] { enfrentamiento.getEquipo1().getPuntos(),
+								enfrentamiento.getEquipo2().getPuntos() };
+						tabla.insertarEnfrentamiento(nombres, goles, new int[] { goles[1], goles[0] }, puntos);
 
 					}
 
 					enfrentamientoActual = cantidadEquipos % 2 == 0 ? 0 : 1;
 
 				}
+
+				Grafico.imprimeTabla(tabla);
+
+				break;
+
+			case 4:
+
+				Grafico.imprimeTabla(tabla);
 
 				break;
 			}
@@ -305,13 +344,18 @@ public class Liga {
 	public static int menuEnfrentamientos(Jornada jornada, int enfrentamientoActual) {
 
 		int opcion;
+		int[] goles;
+		int[] puntos;
 		String[] opciones = { "1. Asignar puntos", "2. Simular enfrentamiento", "3. Volver al menú anterior" };
+		String[] nombres;
 		Enfrentamiento enfrentamiento;
 
 		do {
 
 			enfrentamiento = jornada.getEnfrentamientos().get(enfrentamientoActual);
-			System.out.println(enfrentamiento.getEquipo1() + " vs " + enfrentamiento.getEquipo2());
+			nombres = new String[] { enfrentamiento.getEquipo1().get_nombreEquipo(),
+					enfrentamiento.getEquipo2().get_nombreEquipo() };
+			System.out.println(nombres[0] + " vs " + nombres[1]);
 			System.out.println();
 			opcion = Grafico.menu(opciones, "Opcion: ");
 
@@ -319,6 +363,9 @@ public class Liga {
 			case 1:
 
 				enfrentamiento.crearResultado();
+				goles = new int[] { enfrentamiento.getGolesEquipo1(), enfrentamiento.getGolesEquipo2() };
+				puntos = new int[] { enfrentamiento.getEquipo1().getPuntos(), enfrentamiento.getEquipo2().getPuntos() };
+				tabla.insertarEnfrentamiento(nombres, goles, new int[] { goles[1], goles[0] }, puntos);
 				enfrentamientoActual++;
 
 				break;
@@ -326,6 +373,9 @@ public class Liga {
 			case 2:
 
 				enfrentamiento.simularEnfrentamiento();
+				goles = new int[] { enfrentamiento.getGolesEquipo1(), enfrentamiento.getGolesEquipo2() };
+				puntos = new int[] { enfrentamiento.getEquipo1().getPuntos(), enfrentamiento.getEquipo2().getPuntos() };
+				tabla.insertarEnfrentamiento(nombres, goles, new int[] { goles[1], goles[0] }, puntos);
 				enfrentamientoActual++;
 
 				break;
@@ -706,6 +756,16 @@ public class Liga {
 
 			System.out.println("Error to raro 0.o");
 			System.out.println();
+
+		}
+
+	}
+
+	public static void reiniciarPuntos() {
+
+		for (int i = 0; i < cantidadEquipos; i++) {
+
+			equipos.get(i).setPuntos(0);
 
 		}
 

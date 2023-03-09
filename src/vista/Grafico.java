@@ -95,7 +95,7 @@ public class Grafico {
 		System.out.println();
 		System.out.println("¿Cuántos equipos habrá en la liga?");
 
-		numeroEquipos = pideEnteroRango(3, 100, "3 - 100: ");
+		numeroEquipos = pideEnteroRango(3, 50, "3 - 50: ");
 
 		return numeroEquipos;
 
@@ -185,11 +185,81 @@ public class Grafico {
 	}
 
 	public static void imprimeTabla(Tabla tabla) {
-		
-		
-		
+
+		int mayor;
+		int ascienden;
+		int playoff;
+		int descienden;
+		int[][] stats = tabla.getEstadisticas();
+		String margen = "   ";
+		String margenNombre = "══";
+		String mayorStr;
+		String posicion;
+		String[] equipos = tabla.getNombresEquipos();
+
+		ascienden = (int) (0.2 * equipos.length);
+		playoff = (int) (0.1 * equipos.length) + ascienden;
+		descienden = (int) (0.85 * equipos.length);// 0.85 es el 15% de los ultimos
+		mayorStr = "1." + equipos[0];
+		mayor = mayorStr.length();
+
+		for (int i = 0; i < equipos.length; i++) {
+
+			if (((i + 1) + "." + equipos[i]).length() > mayor) {
+
+				mayorStr = (i + 1) + "." + equipos[i];
+				mayor = mayorStr.length();
+
+			}
+
+		}
+
+		for (int i = 0; i < mayor; i++) {
+
+			margen += " ";
+			margenNombre += "═";
+
+		}
+
+		System.out.println(margen + "╔═════╤═════╤═════╤═════╗");
+		System.out.println(margen + "║ G.F │ G.C │ D.G │ PTS ║");
+		System.out.println("╔" + margenNombre + "╬═════╪═════╪═════╪═════╣");
+
+		for (int i = 0; i < equipos.length; i++) {
+
+			if (i < ascienden) {
+
+				posicion = "\u001B[42m" + (i + 1) + ".\u001B[0m";
+
+			} else if (i < playoff) {
+
+				posicion = "\u001B[43m" + (i + 1) + ".\u001B[0m";
+
+			} else if (i > descienden) {
+
+				posicion = "\u001B[41m" + (i + 1) + ".\u001B[0m";
+
+			} else {
+
+				posicion = (i + 1) + ".";
+
+			}
+
+			System.out.println("║ " + posicion + equipos[i]
+					+ margen.substring(0, mayor - ((i + 1) + "." + equipos[i]).length()) + " ║ " + stats[i][0]
+					+ margen.substring(0, stats[i][0] / 100 >= 1 ? 0 : stats[i][0] / 10 >= 1 ? 1 : 2) + " │ "
+					+ stats[i][1] + margen.substring(0, stats[i][1] / 100 >= 1 ? 0 : stats[i][1] / 10 >= 1 ? 1 : 2)
+					+ " │ " + stats[i][2]
+					+ margen.substring(0, stats[i][2] / 100 >= 1 ? 0 : stats[i][2] / 10 >= 1 ? 1 : 2) + " │ "
+					+ stats[i][3] + margen.substring(0, stats[i][3] / 100 >= 1 ? 0 : stats[i][3] / 10 >= 1 ? 1 : 2)
+					+ " ║");
+
+		}
+
+		System.out.println("╚" + margenNombre + "╩═════╧═════╧═════╧═════╝");
+
 	}
-	
+
 	private static void imprimeMenu(String[] opciones) {
 
 		for (String opcion : opciones) {

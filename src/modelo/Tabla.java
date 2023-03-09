@@ -5,28 +5,20 @@ import java.util.Arrays;
 
 public class Tabla {
 
-	String[] nombresEquipos;
 	int[][] estadisticas;
+	String[] nombresEquipos;
 
-	public Tabla(ArrayList<Equipo> equipos, int cantidadEquipos) {
+	public Tabla(ArrayList<Equipo> equipos) {
 		super();
-		this.nombresEquipos = new String[equipos.size()];
 		this.estadisticas = new int[equipos.size()][4];
+		this.nombresEquipos = new String[estadisticas.length];
 
-		for (int i = 0; i < cantidadEquipos; i++) {
+		for (int i = 0; i < nombresEquipos.length; i++) {
 
-			this.nombresEquipos[i] = equipos.get(i).get_nombreEquipo();
+			nombresEquipos[i] = equipos.get(i).get_nombreEquipo();
 
 		}
 
-	}
-
-	public String[] getEquipos() {
-		return nombresEquipos;
-	}
-
-	public void setEquipos(String[] equipos) {
-		this.nombresEquipos = equipos;
 	}
 
 	public int[][] getEstadisticas() {
@@ -37,10 +29,18 @@ public class Tabla {
 		this.estadisticas = estadisticas;
 	}
 
+	public String[] getNombresEquipos() {
+		return nombresEquipos;
+	}
+
+	public void setNombresEquipos(String[] nombresEquipos) {
+		this.nombresEquipos = nombresEquipos;
+	}
+
 	@Override
 	public String toString() {
-		return "TablaRepuesto [equipos=" + Arrays.toString(nombresEquipos) + ", estadisticas="
-				+ Arrays.deepToString(estadisticas) + "]";
+		return "Tabla [estadisticas=" + Arrays.toString(estadisticas) + ", nombresEquipos="
+				+ Arrays.toString(nombresEquipos) + "]";
 	}
 
 	public void insertarEstadistica(String equipo, int golesFavor, int golesContra, int puntos) {
@@ -79,9 +79,11 @@ public class Tabla {
 			// una vez encontrado el equipo, le sumo las estadisticas
 			estadisticas[posicion][0] += golesFavor;
 			estadisticas[posicion][1] += golesContra;
-			estadisticas[posicion][2] += Math.abs(golesFavor - golesContra);// no sé si así se calcula la diferencia de
-																			// goles lol
-			estadisticas[posicion][3] += puntos;
+			estadisticas[posicion][2] = Math.abs(estadisticas[posicion][0] - estadisticas[posicion][1]);// no sé si así
+																										// se calcula la
+																										// diferencia de
+			// goles lol
+			estadisticas[posicion][3] = puntos;
 
 			// si no encuentra al equipo, bota esta excepcion
 		} catch (IndexOutOfBoundsException e) {
@@ -94,7 +96,7 @@ public class Tabla {
 			System.out.println("Error to raro 0.o");
 
 		}
-		
+
 		ordenarTabla();
 
 	}
@@ -109,7 +111,7 @@ public class Tabla {
 
 	private void ordenarTabla() {
 
-		int auxNum;
+		int[] auxNum;
 		String auxStr;
 
 		for (int i = 0; i < nombresEquipos.length - 1; i++) {
@@ -118,13 +120,27 @@ public class Tabla {
 
 				if (estadisticas[j][3] > estadisticas[j - 1][3]) {
 
-					auxNum = estadisticas[j][3];
-					estadisticas[j][3] = estadisticas[j - 1][3];
-					estadisticas[j - 1][3] = auxNum;
+					auxNum = estadisticas[j];
+					estadisticas[j] = estadisticas[j - 1];
+					estadisticas[j - 1] = auxNum;
 
 					auxStr = nombresEquipos[j];
 					nombresEquipos[j] = nombresEquipos[j - 1];
 					nombresEquipos[j - 1] = auxStr;
+
+				} else if (estadisticas[j][3] == estadisticas[j - 1][3]) {
+
+					if (estadisticas[j][0] > estadisticas[j - 1][0]) {
+
+						auxNum = estadisticas[j];
+						estadisticas[j] = estadisticas[j - 1];
+						estadisticas[j - 1] = auxNum;
+
+						auxStr = nombresEquipos[j];
+						nombresEquipos[j] = nombresEquipos[j - 1];
+						nombresEquipos[j - 1] = auxStr;
+
+					}
 
 				}
 
