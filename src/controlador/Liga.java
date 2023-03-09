@@ -104,7 +104,9 @@ public class Liga {
 
 			Grafico.mostrarEquipos(equipos);
 
-			System.out.println("Escoge una de las opciones");
+			System.out.println("****************************");
+			System.out.println(" Escoge una de las opciones");
+			System.out.println("****************************");
 			opcion = Grafico.menu(opciones, "Opcion: ");
 
 			switch (opcion) {
@@ -274,7 +276,7 @@ public class Liga {
 
 				System.out.println(jornada.getEnfrentamientos().get(i).getEquipo1().get_nombreEquipo()
 						+ (jornada.getEnfrentamientos().get(i).getEquipo1().get_nombreEquipo()
-								.equalsIgnoreCase("descansa") ? "" : " vs ")
+								.equalsIgnoreCase("descansa") ? " " : " vs ")
 						+ jornada.getEnfrentamientos().get(i).getEquipo2().get_nombreEquipo());
 
 			}
@@ -558,6 +560,7 @@ public class Liga {
 		try {
 
 			equipos.remove(posicion);
+			cantidadEquipos--;
 			System.out.println("Equipo borrado correctamente");
 
 		} catch (IndexOutOfBoundsException e) {

@@ -15,6 +15,8 @@ import modelo.Tabla;
 public class Grafico {
 
 	private static Scanner sc = new Scanner(System.in);
+	private static final String ANSI_RESET = "\033[0m";
+	private static final String ANSI_BLANCO = "\033[38;5;15m";
 
 	public static int pideEnteroRango(int inicio, int fin, String mensaje) {
 
@@ -77,7 +79,7 @@ public class Grafico {
 		int numeroEquipos;
 
 		// aunque no parezca, es el mensaje de bienvenida
-		System.out.println("\033[1;92m");
+		System.out.print("\033[1;92m"); // un verde más claro
 		System.out.println("  ____  _                           _     _               _                         \r\n"
 				+ " |  _ \\(_)                         (_)   | |             | |                        \r\n"
 				+ " | |_) |_  ___ _ ____   _____ _ __  _  __| | ___     __ _| |                        \r\n"
@@ -92,11 +94,14 @@ public class Grafico {
 				+ " |___/_|_| |_| |_|\\__,_|_|\\__,_|\\__,_|\\___/|_|     \\__,_|\\___| |_|_|\\__, |\\__,_|___/\r\n"
 				+ "                                                                     __/ |          \r\n"
 				+ "                                                                    |___/           ");
-		System.out.println("\033[0m");
-		System.out.println("Bienvenido al creador de ligas, en este programa podrás crear, gestionar, simular");
-		System.out.println("y muchas cosas más.");
+		System.out.println(ANSI_RESET);
+		System.out.println(ANSI_BLANCO);
+		System.out.println("En este programa podrás gestionar equipos y jugadores, simular enfrentamientos, ");
+		System.out.println("jornadas o la liga entera y mucho más.");
 		System.out.println();
-		System.out.println("¿Cuántos equipos habrá en la liga?");
+		System.out.println("************************************");
+		System.out.println(" ¿Cuántos equipos habrá en la liga?");
+		System.out.println("************************************");
 
 		numeroEquipos = pideEnteroRango(3, 50, "3 - 50: ");
 
@@ -163,7 +168,7 @@ public class Grafico {
 
 			}
 
-			System.out.println();
+			System.out.println(ANSI_BLANCO);
 
 		} else {
 
@@ -187,6 +192,7 @@ public class Grafico {
 
 	}
 
+	// parte javi
 	public static void imprimeTabla(Tabla tabla) {
 
 		int mayor;
