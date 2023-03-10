@@ -94,7 +94,7 @@ public class Liga {
 
 	}
 
-	// Joaquin
+	// Joaquin y Javi(planteamiento)
 	public static void menuPrincipal() {
 
 		int opcion;
@@ -131,7 +131,7 @@ public class Liga {
 
 	}
 
-	// Joaquin
+	// Joaquin y Javi(planteamiento)
 	public static void menuEquiposJugadores() {
 
 		int opcion;
@@ -168,7 +168,7 @@ public class Liga {
 
 	}
 
-	// Joaquin
+	// Joaquin y Javi(planteamiento)
 	public static void menuEquipos() {
 
 		int opcion;
@@ -216,7 +216,7 @@ public class Liga {
 
 	}
 
-	// Joaquin
+	// Joaquin y Javi(planteamiento)
 	public static void menuJugador() {
 
 		int opcion;
@@ -252,7 +252,7 @@ public class Liga {
 
 	}
 
-	// Joaquin
+	// Joaquin y Javi(planteamiento)
 	public static void menuJornadas() {
 
 		int jornadaActual = 0;
@@ -265,64 +265,38 @@ public class Liga {
 				"4. Mostrar tabla" };
 		Jornada jornada;
 		Enfrentamiento enfrentamiento;
+		try {
+			do {
 
-		do {
+				jornada = jornadas.get(jornadaActual);
+				System.out.println("Jornada " + (jornadaActual + 1) + ":");
+				System.out.println();
 
-			jornada = jornadas.get(jornadaActual);
-			System.out.println("Jornada " + (jornadaActual + 1) + ":");
-			System.out.println();
+				for (int i = 0; i < enfrentamientosPorJornada; i++) {
 
-			for (int i = 0; i < enfrentamientosPorJornada; i++) {
-
-				System.out.println(jornada.getEnfrentamientos().get(i).getEquipo1().get_nombreEquipo()
-						+ (jornada.getEnfrentamientos().get(i).getEquipo1().get_nombreEquipo()
-								.equalsIgnoreCase("descansa") ? " " : " vs ")
-						+ jornada.getEnfrentamientos().get(i).getEquipo2().get_nombreEquipo());
-
-			}
-
-			System.out.println();
-
-			opcion = Grafico.menu(opciones, "Opcion: ");
-
-			switch (opcion) {
-			case 1:
-
-				enfrentamientoActual = menuEnfrentamientos(jornada, enfrentamientoActual);
-
-				break;
-
-			case 2:
-
-				for (int i = enfrentamientoActual; i < enfrentamientosPorJornada; i++) {
-
-					enfrentamiento = jornada.getEnfrentamientos().get(i);
-
-					enfrentamiento.simularEnfrentamiento();
-
-					nombres = new String[] { enfrentamiento.getEquipo1().get_nombreEquipo(),
-							enfrentamiento.getEquipo2().get_nombreEquipo() };
-					goles = new int[] { enfrentamiento.getGolesEquipo1(), enfrentamiento.getGolesEquipo2() };
-					puntos = new int[] { enfrentamiento.getEquipo1().getPuntos(),
-							enfrentamiento.getEquipo2().getPuntos() };
-					tabla.insertarEnfrentamiento(nombres, goles, new int[] { goles[1], goles[0] }, puntos);
+					System.out.println(jornada.getEnfrentamientos().get(i).getEquipo1().get_nombreEquipo()
+							+ (jornada.getEnfrentamientos().get(i).getEquipo1().get_nombreEquipo()
+									.equalsIgnoreCase("descansa") ? " " : " vs ")
+							+ jornada.getEnfrentamientos().get(i).getEquipo2().get_nombreEquipo());
 
 				}
 
-				jornadaActual++;
-				enfrentamientoActual = cantidadEquipos % 2 == 0 ? 0 : 1;
+				System.out.println();
 
-				break;
+				opcion = Grafico.menu(opciones, "Opcion: ");
 
-			case 3:
+				switch (opcion) {
+				case 1:
 
-				for (int i = jornadaActual; i < cantidadJornadas; i++, jornadaActual++) {
+					enfrentamientoActual = menuEnfrentamientos(jornada, enfrentamientoActual);
 
-					jornada = jornadas.get(i);
+					break;
 
-					for (int j = enfrentamientoActual; j < enfrentamientosPorJornada; j++) {
+				case 2:
 
-						enfrentamiento = jornada.getEnfrentamientos().get(j);
+					for (int i = enfrentamientoActual; i < enfrentamientosPorJornada; i++) {
+
+						enfrentamiento = jornada.getEnfrentamientos().get(i);
 
 						enfrentamiento.simularEnfrentamiento();
 
@@ -335,39 +309,75 @@ public class Liga {
 
 					}
 
+					jornadaActual++;
+					enfrentamientoActual = cantidadEquipos % 2 == 0 ? 0 : 1;
+
+					break;
+
+				case 3:
+
+					for (int i = jornadaActual; i < cantidadJornadas; i++, jornadaActual++) {
+
+						jornada = jornadas.get(i);
+
+						for (int j = enfrentamientoActual; j < enfrentamientosPorJornada; j++) {
+
+							enfrentamiento = jornada.getEnfrentamientos().get(j);
+
+							enfrentamiento.simularEnfrentamiento();
+
+							nombres = new String[] { enfrentamiento.getEquipo1().get_nombreEquipo(),
+									enfrentamiento.getEquipo2().get_nombreEquipo() };
+							goles = new int[] { enfrentamiento.getGolesEquipo1(), enfrentamiento.getGolesEquipo2() };
+							puntos = new int[] { enfrentamiento.getEquipo1().getPuntos(),
+									enfrentamiento.getEquipo2().getPuntos() };
+							tabla.insertarEnfrentamiento(nombres, goles, new int[] { goles[1], goles[0] }, puntos);
+
+						}
+
+						enfrentamientoActual = cantidadEquipos % 2 == 0 ? 0 : 1;
+
+					}
+
+					Grafico.imprimeTabla(tabla);
+
+					break;
+
+				case 4:
+
+					Grafico.imprimeTabla(tabla);
+
+					break;
+				}
+
+				if (enfrentamientoActual >= enfrentamientosPorJornada) {
+
+					jornadaActual++;
 					enfrentamientoActual = cantidadEquipos % 2 == 0 ? 0 : 1;
 
 				}
 
-				Grafico.imprimeTabla(tabla);
+			} while (jornadaActual < cantidadJornadas);
+		} catch (IndexOutOfBoundsException e) {
 
-				break;
+			System.out.println("No existe el equipo ingresado");
+			System.out.println();
 
-			case 4:
+		} catch (Exception e) {
 
-				Grafico.imprimeTabla(tabla);
+			System.out.println("Error to raro 0.o");
+			System.out.println();
 
-				break;
-			}
-
-			if (enfrentamientoActual >= enfrentamientosPorJornada) {
-
-				jornadaActual++;
-				enfrentamientoActual = cantidadEquipos % 2 == 0 ? 0 : 1;
-
-			}
-
-		} while (jornadaActual < cantidadJornadas);
-
+		}
 	}
 
-	// Joaquin
+	// Joaquin y Javi(planteamiento)
 	public static int menuEnfrentamientos(Jornada jornada, int enfrentamientoActual) {
 
 		int opcion;
 		int[] goles;
 		int[] puntos;
-		String[] opciones = { "1. Asignar puntos", "2. Simular enfrentamiento", "3. Volver al menú anterior" };
+		String[] opciones = { "1. Introducir resultado", "2. Simular enfrentamiento", "3. Volver al menú anterior" };
 		String[] nombres;
 		Enfrentamiento enfrentamiento;
 
@@ -418,9 +428,8 @@ public class Liga {
 		Jugador jugador;
 		Equipo equipo;
 
-		equipo = equipos.get(indice);
-
 		try {
+			equipo = equipos.get(indice);
 
 			nombre = Grafico.pideString("Ingresa el nombre del jugador", "Nombre: ");
 			System.out.println("Ingresa su dorsal");
@@ -451,17 +460,30 @@ public class Liga {
 
 		boolean esNombre = Grafico.nombreODorsal("Modificar");
 		int opcion;
-		int posicion;
+		int posicion = 0;
 		String[] opciones = { "1. Nombre", "2. Dorsal", "3. Posicion" };
 
-		if (esNombre) {
+		try {
+			if (esNombre) {
 
-			posicion = buscarJugador(Grafico.pideString("Ingresa el nombre del jugador", "Jugador: "));
+				posicion = buscarJugador(Grafico.pideString("Ingresa el nombre del jugador", "Jugador: "));
 
-		} else {
+			} else {
 
-			System.out.println("Ingresa el dorsal del jugador");
-			posicion = buscarJugador(Grafico.pideEnteroRango(1, 99, "Dorsal"));
+				System.out.println("Ingresa el dorsal del jugador");
+				posicion = buscarJugador(Grafico.pideEnteroRango(1, 99, "Dorsal"));
+
+			}
+
+		} catch (IndexOutOfBoundsException e) {
+
+			System.out.println("No existe el equipo ingresado");
+			System.out.println();
+
+		} catch (Exception e) {
+
+			System.out.println("Error to raro 0.o");
+			System.out.println();
 
 		}
 
@@ -510,14 +532,28 @@ public class Liga {
 
 		boolean esNombre = Grafico.nombreODorsal("Despedir");
 
-		if (esNombre) {
+		try {
 
-			despedirSiExisteEnEquipo(Grafico.pideString("Ingresa el nombre del jugador", "Jugador: "));
+			if (esNombre) {
 
-		} else {
+				despedirSiExisteEnEquipo(Grafico.pideString("Ingresa el nombre del jugador", "Jugador: "));
 
-			System.out.println("Ingresa el dorsal del jugador");
-			despedirSiExisteEnEquipo(Grafico.pideEnteroRango(1, 99, "Dorsal"));
+			} else {
+
+				System.out.println("Ingresa el dorsal del jugador");
+				despedirSiExisteEnEquipo(Grafico.pideEnteroRango(1, 99, "Dorsal: "));
+
+			}
+
+		} catch (IndexOutOfBoundsException e) {
+
+			System.out.println("No existe el equipo ingresado");
+			System.out.println();
+
+		} catch (Exception e) {
+
+			System.out.println("Error to raro 0.o");
+			System.out.println();
 
 		}
 
@@ -609,20 +645,33 @@ public class Liga {
 		int posicion = 0;
 		String nombreABuscar = nombre.toLowerCase();
 
-		do {
+		try {
 
-			if (equipos.get(posicion).get_nombreEquipo().toLowerCase().equals(nombreABuscar)) {
+			do {
 
-				encontrado = true;
+				if (equipos.get(posicion).get_nombreEquipo().toLowerCase().equals(nombreABuscar)) {
 
-			} else {
+					encontrado = true;
 
-				posicion++;
+				} else {
 
-			}
+					posicion++;
 
-		} while (posicion < cantidadEquipos && !encontrado);
+				}
 
+			} while (posicion < cantidadEquipos && !encontrado);
+
+		} catch (IndexOutOfBoundsException e) {
+
+			System.out.println("No existe el equipo ingresado");
+			System.out.println();
+
+		} catch (Exception e) {
+
+			System.out.println("Error to raro 0.o");
+			System.out.println();
+
+		}
 		return posicion;
 
 	}
@@ -633,23 +682,34 @@ public class Liga {
 		boolean encontrado = false;
 		int posicion = 0;
 		String nombreABuscar = nombre.toLowerCase();
+		try {
 
-		while (posicion < cantidadJugadores && !encontrado) {
+			while (posicion < cantidadJugadores && !encontrado) {
 
-			if (jugadores.get(posicion).get_nombre().toLowerCase().equals(nombreABuscar)) {
+				if (jugadores.get(posicion).get_nombre().toLowerCase().equals(nombreABuscar)) {
 
-				encontrado = true;
+					encontrado = true;
 
-			} else {
+				} else {
 
-				posicion++;
+					posicion++;
+
+				}
 
 			}
 
+		} catch (IndexOutOfBoundsException e) {
+
+			System.out.println("No existe el jugador");
+			System.out.println();
+
+		} catch (Exception e) {
+
+			System.out.println("Error to raro 0.o");
+			System.out.println();
+
 		}
-
 		return posicion;
-
 	}
 
 	// Joaquin
@@ -658,22 +718,34 @@ public class Liga {
 		boolean encontrado = false;
 		int posicion = 0;
 
-		while (posicion < cantidadJugadores && !encontrado) {
+		try {
 
-			if (jugadores.get(posicion).get_dorsal() == dorsal) {
+			while (posicion < cantidadJugadores && !encontrado) {
 
-				encontrado = true;
+				if (jugadores.get(posicion).get_dorsal() == dorsal) {
 
-			} else {
+					encontrado = true;
 
-				posicion++;
+				} else {
+
+					posicion++;
+
+				}
 
 			}
 
+		} catch (IndexOutOfBoundsException e) {
+
+			System.out.println("No existe el jugador");
+			System.out.println();
+
+		} catch (Exception e) {
+
+			System.out.println("Error to raro 0.o");
+			System.out.println();
+
 		}
-
 		return posicion;
-
 	}
 
 	// Joaquin
@@ -686,41 +758,55 @@ public class Liga {
 		int posicion;
 		Equipo equipo;
 
-		do {
-
-			equipo = equipos.get(contador);
-			tamañoJugadores = equipo.get_plantilla().size();
-			posicion = 0;
-
+		try {
 			do {
 
-				if (equipo.getJugador(posicion).get_nombre().toLowerCase().equals(nombre.toLowerCase())) {
+				equipo = equipos.get(contador);
+				tamañoJugadores = equipo.get_plantilla().size();
+				posicion = 0;
 
-					encontrado = true;
-					equipo.removeIntegrante(posicion);
+				while (posicion < tamañoJugadores && !encontrado) {
 
-				} else {
+					if (equipo.getJugador(posicion).get_nombre().toLowerCase().equals(nombre.toLowerCase())) {
 
-					posicion++;
+						encontrado = true;
+						equipo.removeIntegrante(posicion);
+
+						System.out.println("Jugador despedido correctamente");
+						System.out.println();
+
+					} else {
+
+						posicion++;
+
+					}
 
 				}
 
-			} while (tamañoJugadores > contador && !encontrado);
+				if (!encontrado) {
+
+					contador++;
+
+				}
+
+			} while (contador < tamañoEquipos && !encontrado);
 
 			if (!encontrado) {
 
-				contador++;
+				System.out.println("No se ha encontrado el jugador en ningún equipo");
 
 			}
+		} catch (IndexOutOfBoundsException e) {
 
-		} while (tamañoEquipos > contador && !encontrado);
+			System.out.println("No existe");
+			System.out.println();
 
-		if (!encontrado) {
+		} catch (Exception e) {
 
-			System.out.println("No es ha encontrado el jugador en ningún equipo");
+			System.out.println("Error to raro 0.o");
+			System.out.println();
 
 		}
-
 	}
 
 	// Joaquin
@@ -733,38 +819,52 @@ public class Liga {
 		int posicion;
 		Equipo equipo;
 
-		do {
-
-			equipo = equipos.get(contador);
-			tamañoJugadores = equipo.get_plantilla().size();
-			posicion = 0;
+		try {
 
 			do {
 
-				if (equipo.getJugador(posicion).get_dorsal() == dorsal) {
+				equipo = equipos.get(contador);
+				tamañoJugadores = equipo.get_plantilla().size();
+				posicion = 0;
 
-					encontrado = true;
-					equipo.removeIntegrante(posicion);
+				while (tamañoJugadores > posicion && !encontrado) {
 
-				} else {
+					if (equipo.getJugador(posicion).get_dorsal() == dorsal) {
 
-					posicion++;
+						encontrado = true;
+						equipo.removeIntegrante(posicion);
+						System.out.println("Jugador despedido correctamente");
+
+					} else {
+
+						posicion++;
+
+					}
 
 				}
 
-			} while (tamañoJugadores > contador && !encontrado);
+				if (!encontrado) {
+
+					contador++;
+
+				}
+
+			} while (tamañoEquipos > contador && !encontrado);
 
 			if (!encontrado) {
 
-				contador++;
+				System.out.println("No se ha encontrado el jugador en ningún equipo");
 
 			}
+		} catch (IndexOutOfBoundsException e) {
 
-		} while (tamañoEquipos > contador && !encontrado);
+			System.out.println("No existe");
+			System.out.println();
 
-		if (!encontrado) {
+		} catch (Exception e) {
 
-			System.out.println("No es ha encontrado el jugador en ningún equipo");
+			System.out.println("Error to raro 0.o");
+			System.out.println();
 
 		}
 
@@ -850,37 +950,49 @@ public class Liga {
 		 * uso un array de Enfrentamiento en vez de Jornada ya que así es menos
 		 * complicado el asignar los equipos en un orden especifico
 		 */
-		Enfrentamiento[] jornada;
+		Enfrentamiento[] jornada = {};
 		ArrayList<Equipo> copiaEquipos = new ArrayList<>(equipos);
 
-		// si no es par, agrega un equipo con el nombre descansa
-		if (cantidadEquipos % 2 != 0) {
+		try {
+			// si no es par, agrega un equipo con el nombre descansa
+			if (cantidadEquipos % 2 != 0) {
 
-			copiaEquipos.add(0, new Equipo("Descansa"));
-			copiaNumEquipos++;
+				copiaEquipos.add(0, new Equipo("Descansa"));
+				copiaNumEquipos++;
+
+			}
+
+			enfrentamientosPorJornada = copiaNumEquipos / 2;
+			jornada = new Enfrentamiento[enfrentamientosPorJornada];
+
+			// genera la jornada base
+			for (int i = 0; i < enfrentamientosPorJornada; i++) {
+
+				jornada[i] = new Enfrentamiento(copiaEquipos.get(i), copiaEquipos.get(copiaNumEquipos - 1 - i));
+
+			}
+
+			// añade la jornada
+			añadirJornada(jornada, 0);
+
+			/*
+			 * el .clone() se usa para devolver una copia independiente de la jornada si no
+			 * uso el .clone() cualquier cambio que se haga a jornada fuera de este método,
+			 * afectará a la jornada guardada en la lista y no queremos eso
+			 */
+
+		} catch (IndexOutOfBoundsException e) {
+
+			System.out.println("No existe");
+			System.out.println();
+
+		} catch (Exception e) {
+
+			System.out.println("Error to raro 0.o");
+			System.out.println();
 
 		}
-
-		enfrentamientosPorJornada = copiaNumEquipos / 2;
-		jornada = new Enfrentamiento[enfrentamientosPorJornada];
-
-		// genera la jornada base
-		for (int i = 0; i < enfrentamientosPorJornada; i++) {
-
-			jornada[i] = new Enfrentamiento(copiaEquipos.get(i), copiaEquipos.get(copiaNumEquipos - 1 - i));
-
-		}
-
-		// añade la jornada
-		añadirJornada(jornada, 0);
-
-		/*
-		 * el .clone() se usa para devolver una copia independiente de la jornada si no
-		 * uso el .clone() cualquier cambio que se haga a jornada fuera de este método,
-		 * afectará a la jornada guardada en la lista y no queremos eso
-		 */
 		return jornada.clone();
-
 	}
 
 	// Joaquin
@@ -894,53 +1006,64 @@ public class Liga {
 		 */
 		Equipo[][] jornada;
 		Equipo[][] jornadaAuxiliar = new Equipo[enfrentamientosPorJornada][2];
+		try {
+			// copia los enfrentamientos a la jornada auxiliar
+			for (int i = 0; i < enfrentamientosPorJornada; i++) {
 
-		// copia los enfrentamientos a la jornada auxiliar
-		for (int i = 0; i < enfrentamientosPorJornada; i++) {
-
-			jornadaAuxiliar[i] = jornadaBase[i].getEnfrentamiento();
-
-		}
-
-		// cicla los enfrentamientos
-		for (int i = 1; i < cantidadJornadas; i++) {
-
-			contador = 0;
-			jornada = new Equipo[enfrentamientosPorJornada][2];
-
-			// el primer equipo del primer enfrentamiento se queda estático en su posicion
-			jornada[0][0] = jornadaAuxiliar[0][0];
-			// copia el segundo equipo del primer enfrentamiento
-			aux = jornadaAuxiliar[0][1];
-
-			// intercambia los segundos equipos con los que le siguen
-			for (int j = contador; j < enfrentamientosPorJornada - 1; j++, contador++) {
-
-				jornada[j][1] = jornadaAuxiliar[j + 1][1];
+				jornadaAuxiliar[i] = jornadaBase[i].getEnfrentamiento();
 
 			}
 
-			/*
-			 * intercambia el segundo equipo del ultimo enfrentamiento con el primero del
-			 * mismo
-			 */
-			jornada[contador][1] = jornadaAuxiliar[contador][0];
+			// cicla los enfrentamientos
+			for (int i = 1; i < cantidadJornadas; i++) {
 
-			// intercambia los primeros equipos con los que le siguen
-			for (int j = contador; j > 1; j--, contador--) {
+				contador = 0;
+				jornada = new Equipo[enfrentamientosPorJornada][2];
 
-				jornada[j][0] = jornadaAuxiliar[j - 1][0];
+				// el primer equipo del primer enfrentamiento se queda estático en su posicion
+				jornada[0][0] = jornadaAuxiliar[0][0];
+				// copia el segundo equipo del primer enfrentamiento
+				aux = jornadaAuxiliar[0][1];
+
+				// intercambia los segundos equipos con los que le siguen
+				for (int j = contador; j < enfrentamientosPorJornada - 1; j++, contador++) {
+
+					jornada[j][1] = jornadaAuxiliar[j + 1][1];
+
+				}
+
+				/*
+				 * intercambia el segundo equipo del ultimo enfrentamiento con el primero del
+				 * mismo
+				 */
+				jornada[contador][1] = jornadaAuxiliar[contador][0];
+
+				// intercambia los primeros equipos con los que le siguen
+				for (int j = contador; j > 1; j--, contador--) {
+
+					jornada[j][0] = jornadaAuxiliar[j - 1][0];
+
+				}
+
+				// asigna el ultimo primer equipo con el guardado
+				jornada[contador][0] = aux;
+
+				// añade la jornada
+				añadirJornada(jornada, i);
+
+				// copia la jornada a la jornada auxiliar
+				jornadaAuxiliar = jornada.clone();
 
 			}
+		} catch (IndexOutOfBoundsException e) {
 
-			// asigna el ultimo primer equipo con el guardado
-			jornada[contador][0] = aux;
+			System.out.println("No existe");
+			System.out.println();
 
-			// añade la jornada
-			añadirJornada(jornada, i);
+		} catch (Exception e) {
 
-			// copia la jornada a la jornada auxiliar
-			jornadaAuxiliar = jornada.clone();
+			System.out.println("Error to raro 0.o");
+			System.out.println();
 
 		}
 
@@ -948,10 +1071,21 @@ public class Liga {
 
 	// Joaquin
 	private static void añadirJornada(Enfrentamiento[] jornada, int indice) {
+		try {
+			for (int i = 0; i < jornada.length; i++) {
 
-		for (int i = 0; i < jornada.length; i++) {
+				jornadas.get(indice).añadirEnfrentamiento(jornada[i]);
 
-			jornadas.get(indice).añadirEnfrentamiento(jornada[i]);
+			}
+		} catch (IndexOutOfBoundsException e) {
+
+			System.out.println("No existe");
+			System.out.println();
+
+		} catch (Exception e) {
+
+			System.out.println("Error to raro 0.o");
+			System.out.println();
 
 		}
 
@@ -960,9 +1094,21 @@ public class Liga {
 	// Joaquin
 	private static void añadirJornada(Equipo[][] jornada, int indice) {
 
-		for (int i = 0; i < jornada.length; i++) {
+		try {
+			for (int i = 0; i < jornada.length; i++) {
 
-			jornadas.get(indice).añadirEnfrentamiento(new Enfrentamiento(jornada[i][0], jornada[i][1]));
+				jornadas.get(indice).añadirEnfrentamiento(new Enfrentamiento(jornada[i][0], jornada[i][1]));
+
+			}
+		} catch (IndexOutOfBoundsException e) {
+
+			System.out.println("No existe");
+			System.out.println();
+
+		} catch (Exception e) {
+
+			System.out.println("Error to raro 0.o");
+			System.out.println();
 
 		}
 
