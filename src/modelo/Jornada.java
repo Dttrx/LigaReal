@@ -2,6 +2,9 @@ package modelo;
 
 import java.util.ArrayList;
 
+/**
+ * @author Javi
+ */
 public class Jornada {
 
 	private int numeroJornada;
